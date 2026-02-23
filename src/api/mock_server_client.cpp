@@ -62,8 +62,6 @@ std::optional<double> mock_server_client::fetch_price(
 
 	std::string response = perform_request(url);
 
-	std::cout << response << std::endl;
-
 	if (response.empty()) {
 		return std::nullopt;
 	}

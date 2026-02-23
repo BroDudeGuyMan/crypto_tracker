@@ -13,4 +13,5 @@ target_link_libraries(application
 	 coin_gecko_client
 	 mock_server_client
 	 price_buffer
+	 renderer
 )

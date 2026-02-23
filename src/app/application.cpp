@@ -3,6 +3,7 @@
 #include <coin_gecko_client.h>
 #include <mock_server_client.h>
 #include <price_buffer.h>
+#include <renderer.h>
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -32,6 +33,7 @@ int application::run() {
 	const std::chrono::seconds interval(1);
 
 	price_buffer buffer(30);
+	renderer renderer(20, 40);
 
 	while (running) {
 		next_tick += interval;
@@ -40,10 +42,9 @@ int application::run() {
 
 		if (price) {
 			buffer.add(*price);
-			std::cout << "BTC-USD: $" << *price << std::endl;
-		} else {
-			std::cout << "Failed to fetch price" << std::endl;
 		}
+
+		renderer.draw(buffer.get_data());
 
 		std::this_thread::sleep_until(next_tick);
 	}
