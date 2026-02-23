@@ -11,4 +11,6 @@ target_sources(application
 target_link_libraries(application
 	PUBLIC
 	 coin_gecko_client
+	 mock_server_client
+	 price_buffer
 )

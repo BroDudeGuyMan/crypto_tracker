@@ -27,3 +27,9 @@ target_sources(mock_server_client
 	 FILES
 	  mock_server_client.h
 )
+
+target_link_libraries(mock_server_client
+	PRIVATE
+	 CURL::libcurl
+	 nlohmann_json::nlohmann_json
+)

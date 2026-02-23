@@ -1,6 +1,8 @@
 #include "application.h"
 
 #include <coin_gecko_client.h>
+#include <mock_server_client.h>
+#include <price_buffer.h>
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -21,12 +23,15 @@ int application::run() {
 
 	std::signal(SIGINT, signal_handler);
 
-	coin_gecko_client client;
+	//coin_gecko_client client;
+	mock_server_client client;
 
 	using clock = std::chrono::steady_clock;
 	auto next_tick = clock::now();
 
 	const std::chrono::seconds interval(1);
+
+	price_buffer buffer(30);
 
 	while (running) {
 		next_tick += interval;
@@ -34,6 +39,7 @@ int application::run() {
 		auto price = client.fetch_price("bitcoin", "usd");
 
 		if (price) {
+			buffer.add(*price);
 			std::cout << "BTC-USD: $" << *price << std::endl;
 		} else {
 			std::cout << "Failed to fetch price" << std::endl;
