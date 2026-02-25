@@ -9,12 +9,13 @@ target_sources(renderer
 	  FILES
 	   renderer.h
 )
+
 target_link_libraries(renderer
 	PRIVATE
-	 ${CURSES_LIBRARIES}
- )
+	 ncursesw
+)
 
- target_include_directories(renderer
-	 PRIVATE
-	  ${CURSES_INCLUDE_DIR}
+target_include_directories(renderer
+	PRIVATE
+	 ${CURSES_INCLUDE_DIR}
 )

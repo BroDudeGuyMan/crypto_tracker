@@ -1,12 +1,19 @@
+#include <ncurses.h>
+#ifdef NCURSES_WIDECHAR
+#warning Wide mode active
+#endif
+
 #include "renderer.h"
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
+#include <locale.h>
 #include <algorithm>
 #include <vector>
 
 renderer::renderer(int height, int width)
 	: height_(height), width_(width)
 {
+	setlocale(LC_ALL, "");
 	initscr();
 	cbreak();
 	noecho();
@@ -45,12 +52,14 @@ void renderer::draw(const std::vector<double>& data) {
 		int bar_height = static_cast<int>(normalized * graph_height);
 
 		for (int y = 0; y < bar_height; ++y) {
-			mvaddch(height_ - 2 - y, 1 + x, '=');
+			mvaddwstr(height_ - 2 - y, 1 + x, L"\u2588"); 
 		}
 	}
 
 	mvprintw(0, 2, " Crypto Sparkline ");
 	mvprintw(height_ - 1, 2, "Min: %.2f Max: %.2f", min_val, max_val);
+
+	mvprintw(height_, 2, "Diff: %.2f", data[0] - data[1]);
 
 	refresh();
 }

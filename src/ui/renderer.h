@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iterator>
+#include <ncurses.h>
 #include <vector>
 
 class renderer {
